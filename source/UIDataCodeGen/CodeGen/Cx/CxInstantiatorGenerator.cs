@@ -564,7 +564,6 @@ namespace CommunityToolkit.WinUI.Lottie.UIData.CodeGen.Cx
             namespaces.Add($"{_winUINamespace}");
             namespaces.Add(_wuc);
             namespaces.Add("Windows::Graphics");
-            namespaces.Add(Muxc);
 
             if (SourceInfo.UsesCanvas ||
                 SourceInfo.UsesCanvasEffects ||
