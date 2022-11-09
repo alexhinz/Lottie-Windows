@@ -1267,13 +1267,13 @@ namespace CommunityToolkit.WinUI.Lottie.UIData.CodeGen.Cx
 
             if (info.ImplementCreateAndDestroyMethods)
             {
-                builder.WriteLine($"public void {CreateAnimationsMethod}()");
+                builder.WriteLine($"virtual void {CreateAnimationsMethod}()");
                 builder.OpenScope();
                 builder.WriteCodeBuilder(createAnimations);
                 builder.CloseScope();
                 builder.WriteLine();
 
-                builder.WriteLine($"public void {DestroyAnimationsMethod}()");
+                builder.WriteLine($"virtual void {DestroyAnimationsMethod}()");
                 builder.OpenScope();
                 builder.WriteCodeBuilder(destroyAnimations);
                 builder.CloseScope();
