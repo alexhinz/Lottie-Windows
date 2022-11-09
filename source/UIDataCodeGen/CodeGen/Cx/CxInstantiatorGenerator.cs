@@ -24,7 +24,7 @@ namespace CommunityToolkit.WinUI.Lottie.UIData.CodeGen.Cx
         readonly string _fileBaseName;
         readonly string _headerFileName;
         readonly string _cppFileName;
-        readonly bool _isAnimatedIcon;
+        readonly bool _isAnimatedVisualSource2;
 
         // The name of the source class i.e. the class
         // that contains the TryCreateAnimatedVisual method.
@@ -72,8 +72,8 @@ namespace CommunityToolkit.WinUI.Lottie.UIData.CodeGen.Cx
             _animatedVisualTypeName = Interface_IAnimatedVisual.GetQualifiedName(_s);
             _animatedVisualTypeName2 = Interface_IAnimatedVisual2.GetQualifiedName(_s);
 
-            // Temporary until IAnimatedVisualSource2 makes it into WinUI3.
-            _isAnimatedIcon = SourceInfo.WinUIVersion >= new Version(2, 6) && SourceInfo.WinUIVersion.Major < 3;
+            // Cap on Major version is temporary until IAnimatedVisualSource2 makes it into WinUI3.
+            _isAnimatedVisualSource2 = SourceInfo.WinUIVersion >= new Version(2, 6) && SourceInfo.WinUIVersion.Major < 3;
         }
 
         static string FieldAssignment(string fieldName) => fieldName is not null ? $"{fieldName} = " : string.Empty;
@@ -825,10 +825,10 @@ namespace CommunityToolkit.WinUI.Lottie.UIData.CodeGen.Cx
 
         void WriteTryCreateAnimatedVisualDecl(CodeBuilder builder)
         {
-            builder.WriteLine("[Windows::Foundation::Metadata::DefaultOverload]");
-            builder.WriteLine($"{(_isAnimatedIcon ? "virtual " : string.Empty)}{_animatedVisualTypeName}^ TryCreateAnimatedVisual({_wuc}::Compositor^ compositor);");
+            builder.WriteLine($"{_animatedVisualTypeName}^ TryCreateAnimatedVisual({_wuc}::Compositor^ compositor);");
             builder.WriteLine();
 
+            builder.WriteLine("[Windows::Foundation::Metadata::DefaultOverload]");
             builder.WriteLine($"virtual {_animatedVisualTypeName}^ TryCreateAnimatedVisual(");
             builder.Indent();
             builder.WriteLine($"{_wuc}::Compositor^ compositor,");
@@ -842,7 +842,7 @@ namespace CommunityToolkit.WinUI.Lottie.UIData.CodeGen.Cx
         void WriteMarkersPropertyDecl(CodeBuilder builder)
         {
             builder.WriteComment("Returns a map from marker names to corresponding progress values.");
-            builder.WriteLine($"{(_isAnimatedIcon ? "virtual " : string.Empty)}property Windows::Foundation::Collections::IMapView<Platform::String^, double>^ Markers");
+            builder.WriteLine($"{(_isAnimatedVisualSource2 ? "virtual " : string.Empty)}property Windows::Foundation::Collections::IMapView<Platform::String^, double>^ Markers");
             builder.OpenScope();
             builder.WriteLine("Windows::Foundation::Collections::IMapView<Platform::String^, double>^ get();");
             builder.CloseScope();
@@ -873,7 +873,7 @@ namespace CommunityToolkit.WinUI.Lottie.UIData.CodeGen.Cx
         void WriteSetColorPropertyDecl(CodeBuilder builder)
         {
             builder.WriteComment("Sets the color property with the given name, or does nothing if no such property exists.");
-            builder.WriteLine($"{(_isAnimatedIcon ? "virtual " : string.Empty)}void SetColorProperty(Platform::String^ propertyName, Windows::UI::Color value);");
+            builder.WriteLine($"{(_isAnimatedVisualSource2 ? "virtual " : string.Empty)}void SetColorProperty(Platform::String^ propertyName, Windows::UI::Color value);");
         }
 
         void WriteSetScalarPropertyDecl(CodeBuilder builder)
