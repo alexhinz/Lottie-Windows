@@ -1002,7 +1002,7 @@ namespace CommunityToolkit.WinUI.Lottie.UIData.CodeGen.Cx
                 builder.WriteBreakableLine($"auto result = {_s.New(info.ClassName)}(", CommaSeparate(GetConstructorArguments(info)), ");");
                 if (info.ImplementCreateAndDestroyMethods)
                 {
-                    builder.WriteLine($"result.{CreateAnimationsMethod}();");
+                    builder.WriteLine($"result->{CreateAnimationsMethod}();");
                 }
 
                 builder.WriteLine("return result;");
@@ -1017,7 +1017,7 @@ namespace CommunityToolkit.WinUI.Lottie.UIData.CodeGen.Cx
                     builder.WriteBreakableLine($"auto result = {_s.New(info.ClassName)}(", CommaSeparate(GetConstructorArguments(info)), ");");
                     if (info.ImplementCreateAndDestroyMethods)
                     {
-                        builder.WriteLine($"result.{CreateAnimationsMethod}();");
+                        builder.WriteLine($"result->{CreateAnimationsMethod}();");
                     }
 
                     builder.WriteLine("return result;");
